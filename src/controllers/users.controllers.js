@@ -40,10 +40,20 @@ const getUserJoinTasks = async (req, res) => {
     }
 }
 
+const postUser = async(req, res) => {
+    try {
+        const newUser = req.body;
+        const result = await UserServices.addUser(newUser);
+        res.status(201).json(result);
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 module.exports = {
     getAllUsers,
     getUsersById,
     getUserJoinAddress,
-    getUserJoinTasks
+    getUserJoinTasks,
+    postUser
 }
