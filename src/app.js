@@ -8,6 +8,7 @@ const db = require("./utils/database");
 const Tasks = require("./models/ tasks.models");
 
 const app = express();
+app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
