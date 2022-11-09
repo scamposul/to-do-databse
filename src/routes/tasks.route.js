@@ -1,17 +1,17 @@
 const { Router } = require("express");
 const {
-  getAllTasks,
-  getTaskById,
+  getTaskByUserId,
   getTaskJoinedWithCategories,
   getTaskJoinedWithUser,
-  postNewTask,
+  postTask
 } = require("../controllers/tasks.controllers");
 
 const router = Router();
 
-router.get("/tasks", getAllTasks);
-router.get("/tasks/:id", getTaskById);
+router.get("/tasks/:id", getTaskByUserId);
 router.get("/tasks/:id/category", getTaskJoinedWithCategories);
 router.get("/tasks/:id/users", getTaskJoinedWithUser);
+
+router.post("/tasks", postTask);
 
 module.exports = router;

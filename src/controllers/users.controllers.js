@@ -1,52 +1,52 @@
 const UserServices = require('../services/users.services');
 
 // controlador para obtener a todos los usuarios
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
     try {
         const result = await UserServices.getAll();
         res.status(200).json(result);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 };
 
-const getUsersById = async (req, res) => {
+const getUsersById = async (req, res, next) => {
     try {
         const {id} = req.params;
         const result = await UserServices.getById(id);
         res.status(200).json(result);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }
 
-const getUserJoinAddress = async (req, res) => {
+const getUserJoinAddress = async (req, res, next) => {
     try {
         const {id} = req.params;
         const result = await UserServices.getJoinedAddress(id);
         res.status(200).json(result);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }
 
-const getUserJoinTasks = async (req, res) => {
+const getUserJoinTasks = async (req, res, next) => {
     try {
         const {id} = req.params;
         const result = await UserServices.getJoinedTask(id);
         res.status(200).json(result);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }
 
-const postUser = async(req, res) => {
+const postUser = async(req, res, next) => {
     try {
         const newUser = req.body;
         const result = await UserServices.addUser(newUser);
         res.status(201).json(result);
     } catch (error) {
-        console.log(error)
+        next({status: 400, errorContent: error})
     }
 }
 

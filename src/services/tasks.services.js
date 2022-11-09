@@ -5,17 +5,13 @@ const Users = require("../models/users.models");
 
 
 class TasksServices {
-    static async getAll() {
-        try {
-            const result = await Tasks.findAll();
-            return result;
-        } catch (error) {
-            throw error;
-        }
-    }
+
     static async getById(id) {
         try {
-            const result = await Tasks.findByPk(id, {attributes: ['title', 'description', 'isComplete']});
+            const result = await Tasks.findOne({
+                where: {userId: id},
+                attributes: ['id', 'title', 'description', 'isComplete']
+            });
             return result; 
         } catch (error) {
             throw(error);
@@ -56,6 +52,14 @@ class TasksServices {
             return result
         } catch (error) {
             throw(error)
+        }
+    }
+    static async addTask(newTask) {
+        try {
+            const result = await Tasks.create(newTask);
+            return result; 
+        } catch (error) {
+            throw(error);
         }
     }
 }

@@ -2,13 +2,17 @@ const express = require("express");
 const initModels = require("./models/initModels");
 const userRoutes = require("./routes/users.route");
 const tasksRoutes = require("./routes/tasks.route");
-require('dotenv').config()
+const logs = require('./middlewares/requestLogs');
+const handleError = require('./middlewares/error')
+require("dotenv").config();
 // importamos la instancia db de database.js
 const db = require("./utils/database");
 const Tasks = require("./models/ tasks.models");
 
 const app = express();
+
 app.use(express.json());
+app.use(logs);
 
 const PORT = process.env.PORT || 3000;
 
@@ -22,10 +26,19 @@ db.sync({ force: false }) // devuelve una promesa
 
 initModels();
 
-app.get("/", (req, res) => {
-  res.status(200).json("Todo copas");
-});
+app.get(
+  "/",
+  (req, res, next) => {
+    console.log("Antes de responder en la raíz");
+    next();
+  },
+  (req, res) => {
+    res.status(200).json("Todo copas");
+  }
+);
 
-app.use('/api/v1', userRoutes, tasksRoutes);
+app.use("/api/v1", userRoutes, tasksRoutes);
+
+app.use(handleError);
 
 app.listen(PORT, () => console.log("Servidor corriendo en " + PORT));
