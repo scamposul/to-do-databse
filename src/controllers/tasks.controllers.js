@@ -1,54 +1,67 @@
-const TasksServices = require("../services/tasks.services")
-
+const TasksServices = require("../services/tasks.services");
 
 const getTaskByUserId = async (req, res, next) => {
-    try {
-        const {id} = req.params;
-        const result = await TasksServices.getById(id);
-        res.status(200).json(result);
-    } catch (error) {
-        next({
-            message: 'No se pueden obtener las tareas',
-            status: 400,
-            errorContent: error
-        });
-    }
-}
+  try {
+    const { id } = req.params;
+    const result = await TasksServices.getById(id);
+    res.status(200).json(result);
+  } catch (error) {
+    next({
+      message: "No se pueden obtener las tareas",
+      status: 400,
+      errorContent: error,
+    });
+  }
+};
 
 const getTaskJoinedWithUser = async (req, res) => {
-    try {
-        const {id} = req.params;
-        const result = await TasksServices.getJoinedUser(id);
-        res.status(200).json(result)
-    } catch (error) {
-        console.log(error);
-    }
-}
+  try {
+    const { id } = req.params;
+    const result = await TasksServices.getJoinedUser(id);
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const getTaskJoinedWithCategories = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await TasksServices.getJoinedCategory(id);
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const postTask = async (req, res, next) => {
+  try {
+    const { task, categories } = req.body;
+    const result = await TasksServices.addTask(task, categories);
+    res.status(201).json({ message: "La tarea ha sido creada" });
+  } catch (error) {
+    next({ messgage: "La cagaste, bro", status: 400, errorContent: error });
+  }
+};
+
+const completeTask = async (req, res, next) => {
     try {
         const {id} = req.params;
-        const result = await TasksServices.getJoinedCategory(id);
-        res.status(200).json(result);
+        const result = await TasksServices.updateStatus(id);
+        res.status(200).json({message: 'Tarea actualizada'});
     } catch (error) {
-        console.log(error);
+        next({
+            message: 'La cagaste, bro',
+            status: 400,
+            errorContent: error
+        })
     }
 }
-
-const postTask = async(req, res, next) => {
-    try {
-        const newTask = req.body
-        const result = await TasksServices.addTask(newTask);
-        res.status(201).json(result);
-    } catch (error) {
-        next({status: 400, errorContent: error});
-    }
-}
-
 
 module.exports = {
-    getTaskByUserId,
-    getTaskJoinedWithUser,
-    getTaskJoinedWithCategories,
-    postTask
-}
+  getTaskByUserId,
+  getTaskJoinedWithUser,
+  getTaskJoinedWithCategories,
+  postTask,
+  completeTask
+};
