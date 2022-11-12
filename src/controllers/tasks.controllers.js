@@ -1,4 +1,5 @@
 const TasksServices = require("../services/tasks.services");
+const jwt = require("jsonwebtoken");
 
 const getTaskByUserId = async (req, res, next) => {
   try {
@@ -45,23 +46,23 @@ const postTask = async (req, res, next) => {
 };
 
 const completeTask = async (req, res, next) => {
-    try {
-        const {id} = req.params;
-        const result = await TasksServices.updateStatus(id);
-        res.status(200).json({message: 'Tarea actualizada'});
-    } catch (error) {
-        next({
-            message: 'La cagaste, bro',
-            status: 400,
-            errorContent: error
-        })
-    }
-}
+  try {
+    const { id } = req.params;
+    const result = await TasksServices.updateStatus(id);
+    res.status(200).json({ message: "Tarea actualizada" });
+  } catch (error) {
+    next({
+      message: "La cagaste, bro",
+      status: 400,
+      errorContent: error,
+    });
+  }
+};
 
 module.exports = {
   getTaskByUserId,
   getTaskJoinedWithUser,
   getTaskJoinedWithCategories,
   postTask,
-  completeTask
+  completeTask,
 };

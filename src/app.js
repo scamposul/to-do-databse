@@ -2,12 +2,12 @@ const express = require("express");
 const initModels = require("./models/initModels");
 const userRoutes = require("./routes/users.route");
 const tasksRoutes = require("./routes/tasks.route");
+const authRoute = require('./routes/auth.route');
 const logs = require('./middlewares/requestLogs');
-const handleError = require('./middlewares/error')
+const handleError = require('./middlewares/error');
 require("dotenv").config();
 // importamos la instancia db de database.js
 const db = require("./utils/database");
-const Tasks = require("./models/ tasks.models");
 
 const app = express();
 
@@ -37,8 +37,11 @@ app.get(
   }
 );
 
-app.use("/api/v1", userRoutes, tasksRoutes);
+app.use("/api/v1", userRoutes, tasksRoutes, authRoute);
 
 app.use(handleError);
 
 app.listen(PORT, () => console.log("Servidor corriendo en " + PORT));
+
+
+// balceirojuventina@gmail.com ---> hiddenpassword

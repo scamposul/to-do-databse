@@ -6,15 +6,16 @@ const {
   postTask,
   completeTask
 } = require("../controllers/tasks.controllers");
+const authVerification = require('../middlewares/auth.middleware');
 
 const router = Router();
 
-router.get("/tasks/:id", getTaskByUserId);
-router.get("/tasks/:id/category", getTaskJoinedWithCategories);
-router.get("/tasks/:id/users", getTaskJoinedWithUser);
+router.get("/tasks/:id", authVerification, getTaskByUserId);
+router.get("/tasks/:id/category", authVerification, getTaskJoinedWithCategories);
+router.get("/tasks/:id/users", authVerification, getTaskJoinedWithUser);
 
-router.post("/tasks", postTask);
+router.post("/tasks", authVerification, postTask);
 
-router.patch('/tasks/:id', completeTask);
+router.patch('/tasks/:id', authVerification, completeTask);
 
 module.exports = router;
